@@ -23,8 +23,13 @@ namespace MyScriptureJournal2.Pages.Scriptures
 
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string OrderBy { get; set; }
         // Requires using Microsoft.AspNetCore.Mvc.Rendering;
+
         public SelectList Book { get; set; }
+
         [BindProperty(SupportsGet = true)]
         public string ScriptureBook { get; set; }
 
@@ -35,8 +40,7 @@ namespace MyScriptureJournal2.Pages.Scriptures
                                            orderby s.Book
                                            select s.Book;
 
-            var scriptures = from s in _context.Scripture
-                             select s;
+            var scriptures = from s in _context.Scripture select s;
 
             if (!string.IsNullOrEmpty(SearchString))
             {
@@ -47,10 +51,26 @@ namespace MyScriptureJournal2.Pages.Scriptures
             {
                 scriptures = scriptures.Where(x => x.Book == ScriptureBook);
             }
+
+            if(!string.IsNullOrEmpty(OrderBy))
+            {
+                switch (OrderBy)
+                {
+                    case "book":
+                        scriptures = scriptures.OrderBy(s => s.Book);
+                        break;
+                    case "date":
+                        scriptures = scriptures.OrderBy(s => s.Accessed);
+                        break;
+                    default:
+                        scriptures = scriptures.OrderBy(s => s.Book);
+                        break;
+                }
+            }
             Book = new SelectList(await bookQuery.Distinct().ToListAsync());
             Scripture = await scriptures.ToListAsync();
         }
-        public async Task<IActionResult> Index(string sortOrder)
+        /*public async Task<IActionResult> Index(string sortOrder)
         {
             ViewData["BookSortParm"] = String.IsNullOrEmpty(sortOrder) ? "book_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
@@ -77,6 +97,6 @@ namespace MyScriptureJournal2.Pages.Scriptures
         private IActionResult View(List<Scripture> list)
         {
             throw new NotImplementedException();
-        }
+        } */
     } 
 }

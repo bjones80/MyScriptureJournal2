@@ -8,7 +8,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-page="Create">Create New</a>
 </p>
 
 <form>
@@ -27,7 +27,7 @@
                 @Html.DisplayNameFor(model => model.Scripture[0].Cannon)
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["BookSortParm"]">@Html.DisplayNameFor(model => model.Scripture[0].Book)</a>
+                <a asp-action="Index" asp-route-OrderBy="book">@Html.DisplayNameFor(model => model.Scripture[0].Book)</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Scripture[0].Chapter)
@@ -36,7 +36,7 @@
                 @Html.DisplayNameFor(model => model.Scripture[0].Verse)
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.Scripture[0].Accessed)</a>
+                <a asp-action="Index" asp-route-OrderBy="date">@Html.DisplayNameFor(model => model.Scripture[0].Accessed)</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Scripture[0].Notes)
